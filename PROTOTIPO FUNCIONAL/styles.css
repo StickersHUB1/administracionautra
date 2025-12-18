@@ -1,0 +1,409 @@
+/* ===== RESET MÍNIMO PARA LAYOUT DE SESIÓN ===== */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --primary-gradient: linear-gradient(45deg, #ABC8E9, #8AB4F8);
+  --hover-bg: #F9EEE0;
+  --text-color: #545454;
+}
+
+/* Estructura base de la vista */
+html, body {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  font-family: 'Inter', sans-serif;
+  background: #F9EEE0;
+  color: var(--text-color);
+  display: flex;
+  flex-direction: column;
+}
+
+/* ===== CONTENEDOR PRINCIPAL ===== */
+#container {
+  display: flex;
+  flex: 1;
+  width: 100%;
+  height: calc(100vh - 64px); /* deja espacio si hay barra superior */
+  overflow: hidden;
+}
+
+/* ===== PANEL IZQUIERDO (ZOOM) ===== */
+#left-panel {
+  width: 40%;
+  min-width: 400px;
+  background: #FFFFFF;
+  padding: 1rem;
+  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  overflow: hidden;
+}
+
+#left-panel h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--text-color);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+#zoom-container {
+  flex: 1;
+  background: #000000;
+  border-radius: 8px;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* ===== PANEL DERECHO (PDF) ===== */
+#right-panel {
+  flex: 1;
+  padding: 1rem;
+  background: linear-gradient(145deg, #F9EEE0, #E8E0D5);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  overflow: auto;
+}
+
+/* Header del test y controles */
+#test-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: row;
+  flex-wrap: wrap;
+  background: #f0e7dad6;
+  padding: 10px;
+  border-radius: 10px;
+  border: solid 1px #8fb8f6;
+  z-index: 1000;
+  position: sticky;
+  top: 0;
+  align-content: flex-start;
+}
+
+#test-header h2 {
+  font-size: 1.5rem;
+  color: var(--text-color);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.student-code {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #737373;
+}
+
+/* Botón comenzar */
+#user-section { text-align: center; }
+
+.start-btn {
+  background: var(--primary-gradient);
+  color: #FFFFFF;
+  padding: 12px 24px;
+  font-size: 1.2rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: transform 0.2s ease;
+}
+
+.start-btn:hover {
+  transform: translateY(-2px);
+  background: var(--hover-bg);
+  color: var(--text-color);
+}
+
+/* ===== VISOR PDF ===== */
+#pdf-container {
+  position: relative;
+  min-height: 842px;
+  max-height: calc(100vh - 64px - 2rem);
+  overflow: auto;
+  background: #FFFFFF;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  padding: 1rem;
+  width: 595px; /* A4 ancho */
+  pointer-events: auto;
+  cursor: auto;
+}
+
+#pdf-render {
+  display: block;
+  width: 595px !important;   /* A4 px */
+  height: 842px !important;  /* A4 px */
+  object-fit: contain;
+  background: #FFF;
+  position: absolute;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 1;
+}
+
+/* Capas de anotación y resaltado */
+.annotationCanvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 595px !important;
+  height: 842px !important;
+  z-index: 3;
+  opacity: 1;
+  border: 1px solid #cdcdcd;
+}
+
+.annotationCanvas.active {
+  pointer-events: auto;
+  cursor: crosshair !important;
+}
+
+.highlightCanvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 595px !important;
+  height: 842px !important;
+  pointer-events: none;
+  z-index: 2;
+  opacity: 1;
+  border: 1px solid blue; /* temporal depuración */
+}
+
+.annotationLayer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 595px !important;
+  height: 842px !important;
+  z-index: 5;
+  pointer-events: none;
+}
+
+.textWidgetAnnotation { pointer-events: auto; }
+
+/* Controles PDF */
+#pdf-controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(20px) saturate(1.4);
+  -webkit-backdrop-filter: blur(20px) saturate(1.4);
+  border: 1px solid rgba(171, 200, 233, 0.7);
+  box-shadow: 0 2px 25px rgba(171, 200, 233, 0.5);
+  border-radius: 8px;
+  margin-top: 1rem;
+}
+
+#pdf-controls button {
+  background: var(--primary-gradient);
+  color: #FFFFFF;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+#pdf-controls button:hover {
+  background: var(--hover-bg);
+  color: var(--text-color);
+}
+
+#page-info { font-size: 1rem; color: var(--text-color); }
+
+/* ===== SIDEBAR FLOTANTE (herramientas) ===== */
+.sidebar, #sidebar {
+  position: fixed;
+  bottom: 20px;
+  left: 69%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(20px) saturate(1.4);
+  -webkit-backdrop-filter: blur(20px) saturate(1.4);
+  border: 1px solid rgba(171, 200, 233, 0.7);
+  box-shadow: 0 2px 25px rgba(171, 200, 233, 0.5);
+  padding: 8px;
+  border-radius: 12px;
+  z-index: 1000;
+}
+
+#sidebar.hidden { display: none !important; }
+
+/* Pickers flotantes */
+.color-picker, .size-picker {
+  position: absolute;
+  bottom: calc(100% + 10px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(20px) saturate(1.4);
+  -webkit-backdrop-filter: blur(20px) saturate(1.4);
+  border: 1px solid rgba(171, 200, 233, 0.7);
+  box-shadow: 0 2px 25px rgba(171, 200, 233, 0.5);
+  border-radius: 8px;
+  padding: 8px;
+  z-index: 1002;
+  animation: fadeIn 0.3s ease;
+}
+
+/* Modal de miniaturas */
+.thumbnails-modal {
+  position: absolute;
+  bottom: calc(100% + 10px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(20px) saturate(1.4);
+  -webkit-backdrop-filter: blur(20px) saturate(1.4);
+  border: 1px solid rgba(171, 200, 233, 0.7);
+  box-shadow: 0 2px 25px rgba(171, 200, 233, 0.5);
+  border-radius: 8px;
+  padding: 10px;
+  z-index: 1002;
+  max-height: 300px;
+  overflow-y: auto;
+  animation: fadeIn 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+#thumbnails-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.thumbnail {
+  width: 100px;
+  border: 2px solid transparent;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: border-color 0.2s ease, transform 0.2s ease;
+}
+
+.thumbnail:hover { border-color: #8AB4F8; transform: scale(1.05); }
+.thumbnail.active { border-color: #ABC8E9; }
+
+/* Animación genérica */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translate(-50%, 10px); }
+  to   { opacity: 1; transform: translate(-50%, 0); }
+}
+
+/* Inputs auxiliares */
+.sidebar-nav input {
+  width: 60px;
+  padding: 6px;
+  border: 1px solid #ABC8E9;
+  border-radius: 6px;
+  font-size: 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(20px) saturate(1.4);
+  -webkit-backdrop-filter: blur(20px) saturate(1.4);
+  box-shadow: 0 2px 25px rgba(171, 200, 233, 0.5);
+}
+
+/* Botones de la sidebar */
+.sidebar-btn {
+  background: var(--primary-gradient);
+  color: #FFFFFF;
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1.2rem;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.sidebar-btn:hover, .sidebar-btn.active {
+  background: var(--hover-bg);
+  color: var(--text-color);
+  transform: translateY(-2px);
+}
+
+/* Botón flotante para ocultar/mostrar sidebar */
+#toggle-sidebar-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 25px;
+  width: 48px;
+  height: 48px;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(20px) saturate(1.4);
+  -webkit-backdrop-filter: blur(20px) saturate(1.4);
+  border: 1px solid rgba(171, 200, 233, 0.7);
+  box-shadow: 0 2px 25px rgba(171, 200, 233, 0.5);
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  transition: background-color 0.3s ease;
+}
+
+#toggle-sidebar-btn:hover { background: rgba(171, 200, 233, 0.15); }
+#toggle-sidebar-btn i { font-size: 20px; color: #333; }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  #container { flex-direction: column; height: auto; }
+
+  #left-panel, #right-panel {
+    width: 100%;
+    height: 50vh;
+  }
+
+  .sidebar { bottom: 10px; padding: 6px; }
+
+  .sidebar-btn { width: 36px; height: 36px; font-size: 1rem; }
+
+  .color-picker, .size-picker { bottom: calc(100% + 5px); }
+
+  #pdf-container {
+    min-height: 50vh;
+    max-height: 50vh;
+    width: 100%;
+    padding: 0.5rem;
+  }
+
+  #pdf-render {
+    width: 100% !important;
+    height: auto !important;
+    max-width: 595px;
+    max-height: 842px;
+  }
+
+  .annotationCanvas, .highlightCanvas, .annotationLayer {
+    width: 100% !important;
+    height: auto !important;
+    max-width: 595px;
+    max-height: 842px;
+  }
+}

@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AUTRA · Foro AUTRA</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --primary: #ABC8E9;
+      --secondary: #F9EEE0;
+      --headline: #545454;
+      --subhead: #737373;
+      --body: #A6A6A6;
+      --muted: #D9D9D9;
+      --radius: 14px;
+      --container: 1100px;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Montserrat, sans-serif;
+      background: #FFFFFF;
+      color: var(--body);
+    }
+
+    header.site {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--primary);
+      border-bottom: 1px solid var(--muted);
+    }
+    .site__bar {
+      max-width: var(--container);
+      margin: 0 auto;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: var(--headline);
+      font-weight: 700;
+      font-size: 20px;
+    }
+    .brand img {
+      width: 34px;
+      height: 34px;
+      object-fit: contain;
+      border-radius: 8px;
+    }
+
+    nav.tabs {
+      background: #FFFFFF;
+      border-bottom: 1px solid var(--muted);
+    }
+    .tabs__row {
+      max-width: var(--container);
+      margin: 0 auto;
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      gap: 18px;
+    }
+    .tabs__links {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+    }
+    .tabs__links a {
+      text-decoration: none;
+      color: var(--headline);
+      font-weight: 600;
+      font-size: 14px;
+      padding: 8px 10px;
+      border-radius: 10px;
+      transition: background .18s ease;
+    }
+    .tabs__links a:hover {
+      background: var(--secondary);
+    }
+    .tabs__links a.active {
+      background: rgba(171,200,233,.45);
+    }
+
+    .tabs__actions {
+      margin-left: auto;
+      display: flex;
+      gap: 10px;
+    }
+    .btn {
+      background: var(--primary);
+      color: #FFFFFF;
+      font-weight: 600;
+      font-size: 13px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      text-decoration: none;
+      border: 2px solid var(--primary);
+      transition: background .18s ease, border-color .18s ease;
+    }
+    .btn:hover {
+      background: var(--secondary);
+      border-color: var(--secondary);
+      color: var(--headline);
+    }
+
+    main {
+      max-width: 1000px;
+      margin: 28px auto;
+      padding: 0 16px 40px;
+    }
+    h2 {
+      margin: 0 0 10px;
+      color: var(--headline);
+      font-size: 22px;
+      font-weight: 700;
+    }
+    p {
+      margin: 0 0 18px;
+      color: var(--subhead);
+      font-size: 15px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <header class="site">
+    <div class="site__bar">
+      <a class="brand" href="foro_autra.html">
+        <img src="assets/images/logo.png" alt="Logo AUTRA">
+        <span>AUTRA</span>
+      </a>
+    </div>
+  </header>
+
+  <nav class="tabs" role="navigation">
+    <div class="tabs__row">
+      <div class="tabs__links">
+        <a href="foro_autra.html" class="nav-foro">Foro AUTRA</a>
+        <a href="ClassRoom.html" class="nav-classroom">ClassRoom</a>
+        <a href="Perfil.html" class="nav-perfil">Mi Perfil</a>
+        <a href="Tutoria_privada.html" class="nav-tutoria">Tutoría Priv.</a>
+      </div>
+
+      <div class="tabs__actions">
+        <a href="iniciar_sesion.html" class="btn">Iniciar sesión</a>
+        <a href="registro.html" class="btn">Registrarse</a>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+    <h2>Foro AUTRA</h2>
+    <p>Buzón profesional para que la comunidad avance con orden y claridad.</p>
+  </main>
+
+  <script>
+    const p = window.location.pathname.toLowerCase();
+    if (p.includes("foro_autra")) document.querySelector(".nav-foro")?.classList.add("active");
+    if (p.includes("classroom")) document.querySelector(".nav-classroom")?.classList.add("active");
+    if (p.includes("perfil")) document.querySelector(".nav-perfil")?.classList.add("active");
+    if (p.includes("tutoria")) document.querySelector(".nav-tutoria")?.classList.add("active");
+  </script>
+
+</body>
+</html>
